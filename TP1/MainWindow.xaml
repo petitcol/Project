@@ -7,7 +7,7 @@
 
     <Grid>
 
-        <Grid.Background>
+        <Grid.Background          >
             <ImageBrush ImageSource="Images/Background.jpg" Opacity="0.4" Stretch="UniformToFill"/>
         </Grid.Background>
 
