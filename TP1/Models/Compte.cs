@@ -10,7 +10,7 @@ namespace TP1.Models
     {
 
         #region Champs
-        private string Prenom { get; set; }
+        public string Prenom { get; set; }
         private string _nom;
         public string Nom
         {
@@ -33,7 +33,7 @@ namespace TP1.Models
                 return _identifiant;
             }
 
-            private set
+            set
             {
                 _identifiant = value;
             }
@@ -46,7 +46,7 @@ namespace TP1.Models
                 return _pwd;
             }
 
-            private set
+            set
             {
                 _pwd = value;
             }
@@ -67,8 +67,7 @@ namespace TP1.Models
 
         public Compte()
         {
-            Nom = "Connectez vous...";
-            Identifiant = "BONSOIR";
+            Nom = "SVP connectez vous...";
         }
 
         public override string ToString()

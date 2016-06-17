@@ -20,8 +20,7 @@ namespace TP1
     /// Logique d'interaction pour WindowAddVins.xaml
     /// </summary>
     public partial class WindowAddVins :Window
-    {
-        
+    {        
         public WindowAddEditVM _viewModell { get; set; }
 
         public WindowAddVins()

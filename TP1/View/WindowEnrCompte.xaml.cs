@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TP1.Models;
-using TP1.ViewModels;
 
 namespace TP1.View
 {
     /// <summary>
-    /// Logique d'interaction pour WindowConnexion.xaml
+    /// Logique d'interaction pour WindowEnrCompte.xaml
     /// </summary>
-    public partial class WindowConnexion : Window
+    public partial class WindowEnrCompte : Page
     {
-        public WindowConnexionVM ViewModel { get; set; }
-
-        public WindowConnexion(Compte c, ObservableCollection<Compte> l)
+        public WindowEnrCompte()
         {
             InitializeComponent();
-            ViewModel = new WindowConnexionVM(c,l);
-            DataContext = ViewModel;
         }
     }
 }

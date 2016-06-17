@@ -58,11 +58,15 @@
     <Compile Include="Models\Vins.cs" />
     <Compile Include="ViewModels\WindowAddVM.cs" />
     <Compile Include="ViewModels\WindowConnexionVM.cs" />
+    <Compile Include="ViewModels\WindowEnrCompteVM.cs" />
     <Compile Include="View\WindowAddVins.xaml.cs">
       <DependentUpon>WindowAddVins.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WindowConnexion.xaml.cs">
       <DependentUpon>WindowConnexion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WindowEnrCompte.xaml.cs">
+      <DependentUpon>WindowEnrCompte.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\WindowConnexion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WindowEnrCompte.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,12 +14,12 @@ namespace TP1
     public class MainWindowVM : NotifyPropertyChangedBase
     {
         #region Champs
+
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand SuppCommand { get; set; }
         public DelegateCommand ConnexionCommand { get; set; }
-        private ObservableCollection<Compte> _listeComptes;
-
+        private ObservableCollection<Compte> ListeComptes { get; set; }
         private ObservableCollection<Vins> _listeVins;
         private Vins _vins;
         private string _tsearchBar;
@@ -67,26 +67,13 @@ namespace TP1
             }
         }
 
-        public Compte Compte
+        public Compte CompteUser
         {
             get { return _compte; }
             set
             {
                 _compte = value;
                 NotifyPropertyChanged("Compte");
-            }
-        }
-
-        public ObservableCollection<Compte> lComptes
-        {
-            get
-            {
-                return _listeComptes;
-            }
-
-            set
-            {
-                _listeComptes = value;
             }
         }
 
@@ -107,11 +94,13 @@ namespace TP1
             EditCommand = new DelegateCommand(EditAction, CanExecuteEditSupp);
             SuppCommand = new DelegateCommand(SuppAction, CanExecuteEditSupp);
             ConnexionCommand = new DelegateCommand(ConnexionAction, CanExecuteAddCo);
-            Compte = new Compte();
+            CompteUser = new Compte();
             TSearchBar = "Rechercher...";
             ConnexionEtat = "Connexion";
         }
-         
+
+        #region ButtonMethodes
+
         private void AddAction(object o)
         {
             WindowAddVins add = new WindowAddVins();
@@ -144,7 +133,16 @@ namespace TP1
         {
             if(ConnexionEtat == "Connexion")
             {
-                WindowConnexion co = new WindowConnexion();
+                WindowConnexion co = new WindowConnexion(CompteUser,ListeComptes);
+                co.Name = "Connexion";
+                co.ShowDialog();
+
+                if (co.ViewModel.IsConnected)
+                    ConnexionEtat = "Deconnexion";
+            }
+
+            else if(ConnexionEtat == "Deconnexion")
+            {
 
             }
 
@@ -160,6 +158,7 @@ namespace TP1
             return Vins != null;
         }
 
-     
+        #endregion
+
     }
 }
