@@ -3,9 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Height="500" MinHeight="450" MaxHeight="600" Width="750" MinWidth="550" MaxWidth="750"
+      mc:Ignorable="d"
+      Height="705.952" MinHeight="450" MaxHeight="600" Width="1008.333" MinWidth="550" MaxWidth="850"
       Title="WindowAddVins"
       Icon="../Images/Icone2.ico">
 
@@ -91,15 +90,17 @@
                 <TextBox Grid.Column="4" Margin="8" Text="{Binding Vins.Region}"/>
 
                 <TextBlock Text="Description : " Grid.Row="5" VerticalAlignment="Center" Margin="0 20 0 0"/>
-                <ScrollViewer Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" VerticalScrollBarVisibility="Auto" Height="80" Margin="0 20 0 0">
+                <ScrollViewer Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" VerticalScrollBarVisibility="Auto" Height="140" Margin="0 20 0 0">
                     <TextBox Margin="8"   Text="{Binding Vins.Description}" TextWrapping="Wrap"/>
                 </ScrollViewer>
                 <TextBlock Text="Ajouter une image (URL) : " Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15 0 0 0"/>
-                <TextBox Grid.Column="3" Margin="8" Grid.Row="3" Text="{Binding Vins.PathImage}"/>
-                
+                <TextBox Grid.Row="3" Grid.Column="3" Margin="8" Name="TBImage" Text="{Binding ImageName}"/>
                 <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Vertical">
+                    <Button Grid.Column="3" Margin="8" Width="100" Grid.Row="3" Content="Parcourir" Command="{Binding ParcourirCommand}"/>
                     <TextBlock Text="Image : " HorizontalAlignment="Center"/>
-                    <Image Source="{Binding Vins.PathImage}"/>
+                    <Border BorderBrush="SlateGray" BorderThickness="1">
+                        <Image Source="{Binding Vins.PathImage, UpdateSourceTrigger=PropertyChanged}" Height="140"/>
+                    </Border>
                 </StackPanel>
             </Grid>
 

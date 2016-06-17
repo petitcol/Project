@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Library;
 using System.Windows;
+using TP1.Models;
 
 namespace TP1
 {
@@ -15,18 +16,20 @@ namespace TP1
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand SuppCommand { get; set; }
+        public DelegateCommand ConnectionCommand { get; set; }
+        private ObservableCollection<Compte> _listeComptes;
 
         private ObservableCollection<Vins> _listeVins;
-        public Vins _vins;
+        private Vins _vins;
         private string _tsearchBar;
+        private string _connectionetat;
+        private Compte _compte;
+        
+
 
         public string TSearchBar
         {
-            get
-            {
-                return _tsearchBar;
-            }
-
+            get { return _tsearchBar; }
             set
             {
                 _tsearchBar = value;
@@ -52,6 +55,40 @@ namespace TP1
             get { return _listeVins; }
             set { _listeVins = value; }
         }
+
+        public string ConnectionEtat
+        {
+            get { return _connectionetat; }
+            set
+            {
+                _connectionetat = value;
+                NotifyPropertyChanged("ConnectionEtat");
+            }
+        }
+
+        public Compte Compte
+        {
+            get { return _compte; }
+            set
+            {
+                _compte = value;
+                NotifyPropertyChanged("Compte");
+            }
+        }
+
+        public ObservableCollection<Compte> lComptes
+        {
+            get
+            {
+                return _listeComptes;
+            }
+
+            set
+            {
+                _listeComptes = value;
+            }
+        }
+
         #endregion
 
         public MainWindowVM()
@@ -65,10 +102,13 @@ namespace TP1
             #endregion
             };
 
-            AddCommand = new DelegateCommand(AddAction, CanExecuteAdd);
+            AddCommand = new DelegateCommand(AddAction, CanExecuteAddCo);
             EditCommand = new DelegateCommand(EditAction, CanExecuteEditSupp);
             SuppCommand = new DelegateCommand(SuppAction, CanExecuteEditSupp);
+            ConnectionCommand = new DelegateCommand(ConnectionAction, CanExecuteAddCo);
+            Compte = new Compte();
             TSearchBar = "Rechercher...";
+            ConnectionEtat = "Connexion";
         }
          
         private void AddAction(object o)
@@ -99,7 +139,12 @@ namespace TP1
                 ListeVins.Remove(Vins);
         }
 
-        private bool CanExecuteAdd(object o)
+        private void ConnectionAction(object o)
+        {
+
+        }
+
+        private bool CanExecuteAddCo(object o)
         {
             return true;
         }
@@ -108,5 +153,7 @@ namespace TP1
         {
             return Vins != null;
         }
+
+     
     }
 }

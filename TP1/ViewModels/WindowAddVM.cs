@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Library;
 using System.Windows;
+using Microsoft.Win32;
+using System.IO;
 
 namespace TP1.ViewModels
 {
@@ -15,18 +17,35 @@ namespace TP1.ViewModels
         public string WindowName { get; set; }
         public DelegateCommand Command { get; set; }
         public DelegateCommand AnnulCommand { get; set; }
+        public DelegateCommand ParcourirCommand { get; set; }
         public Vins Vins { get; set; }
         public WindowAddVins Window { get; set; }
         public Boolean IsCanceled { get; set; }
 
+        public string ImageName
+        {
+            get
+            {
+                return _imageName;
+            }
+
+            set
+            {
+                _imageName = value;
+                NotifyPropertyChanged("ImageName");
+            }
+        }
+
+        private string _imageName;
         public WindowAddEditVM(WindowAddVins w)
         {
             Vins = new Vins();
             Window = w;
             CommandName = "Ajouter";
             WindowName = "Ajout d'une bouteille";
-            Command = new DelegateCommand(CommandAction, CanExecuteCommand);
-            AnnulCommand = new DelegateCommand(AnnulAction, CanExecuteAnnul);
+            Command = new DelegateCommand(CommandAction, CanExecuteParAnnulComm);
+            AnnulCommand = new DelegateCommand(AnnulAction, CanExecuteParAnnulComm);
+            ParcourirCommand = new DelegateCommand(ParcourirAction, CanExecuteParAnnulComm);
             IsCanceled = false;
         }
 
@@ -36,8 +55,9 @@ namespace TP1.ViewModels
             Window = w;
             CommandName = "Modifier";
             WindowName = "Modification d'une bouteille";
-            Command = new DelegateCommand(CommandAction, CanExecuteCommand);
-            AnnulCommand = new DelegateCommand(AnnulAction, CanExecuteAnnul);
+            Command = new DelegateCommand(CommandAction, CanExecuteParAnnulComm);
+            AnnulCommand = new DelegateCommand(AnnulAction, CanExecuteParAnnulComm);
+            ParcourirCommand = new DelegateCommand(ParcourirAction, CanExecuteParAnnulComm);
             IsCanceled = false;
         }        
 
@@ -52,12 +72,27 @@ namespace TP1.ViewModels
             Window.Close();
         }
 
-        private bool CanExecuteCommand(object o)
+        private void ParcourirAction(object o)
         {
-            return true;
+            OpenFileDialog file = new OpenFileDialog();
+            file.ShowDialog();
+            ImageName = file.FileName;
+
+            if (File.Exists(ImageName))
+            {
+                string[] aux = ImageName.Split('\\');
+                string newPath = string.Format(@"G:\Cours\IHM\606\ProjIHM\TP1\Images\{0}", aux[aux.Length - 1]);
+                if (!File.Exists(newPath))
+                {
+                    File.Copy(ImageName, newPath);
+                }
+                ImageName = newPath;
+                Vins.PathImage = string.Format(newPath);
+            }
+            
         }
 
-        private bool CanExecuteAnnul(object o)
+        private bool CanExecuteParAnnulComm(object o)
         {
             return true;
         }

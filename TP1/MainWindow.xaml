@@ -46,11 +46,25 @@
         <Grid Grid.Row="3" Margin="20 0 0 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox Name="SearchBar" Height="25" VerticalContentAlignment="Center" Opacity="0.8" Foreground="SlateGray" Margin="5" FontStyle="Italic"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.ColumnSpan="2" Text="{Binding Compte.Identifiant,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Compte.Nom,UpdateSourceTrigger=PropertyChanged}" Margin="5" Grid.Row="1" />
+                <Button Height="30" Width="100" Grid.Column="1" Grid.Row="1" Margin="5" Content="{Binding ConnectionEtat, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ConnectionCommand}"/>
+            </Grid>
+            <TextBox Name="SearchBar" Height="25" VerticalContentAlignment="Center" Opacity="0.8" Foreground="SlateGray" Margin="5" FontStyle="Italic" Grid.Row="1"
                      Text="{Binding TSearchBar}" GotFocus="SearchBar_GotFocus" LostFocus="SearchBar_LostFocus"/>
-            <ListBox  Opacity="0.8"  Name="lVins" Grid.Row="1" Margin="5" ItemsSource="{Binding ListeVins, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Vins, UpdateSourceTrigger=PropertyChanged}"/>
+            <ListBox  Opacity="0.8"  Name="lVins" Grid.Row="2" Margin="5" ItemsSource="{Binding ListeVins, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Vins, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <!--Affichage à droite-->
