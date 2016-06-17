@@ -57,8 +57,12 @@
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="Models\Vins.cs" />
     <Compile Include="ViewModels\WindowAddVM.cs" />
+    <Compile Include="ViewModels\WindowConnexionVM.cs" />
     <Compile Include="View\WindowAddVins.xaml.cs">
       <DependentUpon>WindowAddVins.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WindowConnexion.xaml.cs">
+      <DependentUpon>WindowConnexion.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,6 +77,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\WindowAddVins.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WindowConnexion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

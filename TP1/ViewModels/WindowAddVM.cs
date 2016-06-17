@@ -22,21 +22,7 @@ namespace TP1.ViewModels
         public WindowAddVins Window { get; set; }
         public Boolean IsCanceled { get; set; }
 
-        public string ImageName
-        {
-            get
-            {
-                return _imageName;
-            }
 
-            set
-            {
-                _imageName = value;
-                NotifyPropertyChanged("ImageName");
-            }
-        }
-
-        private string _imageName;
         public WindowAddEditVM(WindowAddVins w)
         {
             Vins = new Vins();
@@ -51,7 +37,7 @@ namespace TP1.ViewModels
 
         public WindowAddEditVM(WindowAddVins w, Vins v)
         {
-            Vins = new Vins(v.Annee, v.Type, v.Domaine, v.Pourcentage, v.Region, v.Cepage,v.Description, v.Appellation, v.Prix, v.EnCuisine,v.PathImage);
+            Vins = new Vins(v.Annee, v.Type, v.Domaine, v.Pourcentage, v.Region, v.Cepage,v.Description, v.Appellation, v.Prix, v.EnCuisine,v.PathImage,v.ImageName);
             Window = w;
             CommandName = "Modifier";
             WindowName = "Modification d'une bouteille";
@@ -59,6 +45,7 @@ namespace TP1.ViewModels
             AnnulCommand = new DelegateCommand(AnnulAction, CanExecuteParAnnulComm);
             ParcourirCommand = new DelegateCommand(ParcourirAction, CanExecuteParAnnulComm);
             IsCanceled = false;
+            
         }        
 
         private void CommandAction(object o)
@@ -76,20 +63,22 @@ namespace TP1.ViewModels
         {
             OpenFileDialog file = new OpenFileDialog();
             file.ShowDialog();
-            ImageName = file.FileName;
+            Vins.ImageName = file.FileName;
 
-            if (File.Exists(ImageName))
+            if (File.Exists(Vins.ImageName))
             {
-                string[] aux = ImageName.Split('\\');
+                string[] aux = Vins.ImageName.Split('\\');
                 string newPath = string.Format(@"G:\Cours\IHM\606\ProjIHM\TP1\Images\{0}", aux[aux.Length - 1]);
                 if (!File.Exists(newPath))
                 {
-                    File.Copy(ImageName, newPath);
+                    File.Copy(Vins.ImageName, newPath);
                 }
-                ImageName = newPath;
-                Vins.PathImage = string.Format(newPath);
-            }
-            
+                Vins.ImageName = file.SafeFileName;
+                Vins.PathImage = newPath;
+
+                //Vins.PathImage = "Images/" + file.SafeFileName;
+                NotifyPropertyChanged("Vins");
+            }            
         }
 
         private bool CanExecuteParAnnulComm(object o)

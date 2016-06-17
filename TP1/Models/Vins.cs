@@ -70,6 +70,15 @@ namespace TP1
                 pathimage = value;
             }
         }
+        private string _imageName;
+        public string ImageName
+        {
+            get { return _imageName; }
+            set
+            {
+                _imageName = value;
+            }
+        }
         public int? Annee { get; set; }
         public string Domaine { get; set; }
         public string Region { get; set; }
@@ -90,7 +99,7 @@ namespace TP1
 
         public Vins() { }
 
-        public Vins(int? annee, string type, string domaine,  float? pourcentage, string region, string cepage, string description, string appellation, int prix, string encuisine, string pathImage)
+        public Vins(int? annee, string type, string domaine,  float? pourcentage, string region, string cepage, string description, string appellation, int prix, string encuisine, string pathImage, string imageName)
         {
             Annee = annee;
             Type = type;
@@ -102,7 +111,8 @@ namespace TP1
             Appellation = appellation;
             Prix = prix;
             EnCuisine = encuisine;
-            PathImage = pathImage;  
+            PathImage = pathImage;
+            ImageName = imageName;
         }
     }
 }

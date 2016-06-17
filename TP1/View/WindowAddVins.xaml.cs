@@ -39,5 +39,9 @@ namespace TP1
             _viewModell = new WindowAddEditVM(this,v);
             DataContext = _viewModell;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

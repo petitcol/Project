@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Library;
 using System.Windows;
 using TP1.Models;
+using TP1.View;
 
 namespace TP1
 {
@@ -16,13 +17,13 @@ namespace TP1
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand SuppCommand { get; set; }
-        public DelegateCommand ConnectionCommand { get; set; }
+        public DelegateCommand ConnexionCommand { get; set; }
         private ObservableCollection<Compte> _listeComptes;
 
         private ObservableCollection<Vins> _listeVins;
         private Vins _vins;
         private string _tsearchBar;
-        private string _connectionetat;
+        private string _connexionetat;
         private Compte _compte;
         
 
@@ -56,13 +57,13 @@ namespace TP1
             set { _listeVins = value; }
         }
 
-        public string ConnectionEtat
+        public string ConnexionEtat
         {
-            get { return _connectionetat; }
+            get { return _connexionetat; }
             set
             {
-                _connectionetat = value;
-                NotifyPropertyChanged("ConnectionEtat");
+                _connexionetat = value;
+                NotifyPropertyChanged("ConnexionEtat");
             }
         }
 
@@ -96,19 +97,19 @@ namespace TP1
             ListeVins = new ObservableCollection<Vins>
             {
             #region ExVins
-                new Vins(1987,"Blanc","Domaine de la Romanée-Conti", 11,"Bourgogne - Côte de nuits", "Chardonnay"," Ce vin blanc est à la croisée de deux excellences, celle d'un domaine et celle d'un terroir. Le premier est la Romanée-Conti, domaine mythique, à la réputation internationale et dont le moindre vin atteint des sommets de prix et affole les collectionneurs. Le second est l'un des meilleurs terroirs à vins blancs de Bourgogne, Montrachet. ","Montrachet",4465,"","Images/romanee-conti_blanc.jpg"),
-                new Vins(2000,"Rouge","Château de Beaucastel", 11, "Vallée du Rhône - Sud (méridional)", " ", " "," ", 313, "Très bon avec du poisson",""),
-                new Vins(1999,"Rouge","Domaine Clos de Tart",9,"Vallée du Rhône - Nord (septentrional)", " ", " ", " ", 245, "Avec de la viande","")
+                new Vins(1987,"Blanc","Domaine de la Romanée-Conti", 11,"Bourgogne - Côte de nuits", "Chardonnay"," Ce vin blanc est à la croisée de deux excellences, celle d'un domaine et celle d'un terroir. Le premier est la Romanée-Conti, domaine mythique, à la réputation internationale et dont le moindre vin atteint des sommets de prix et affole les collectionneurs. Le second est l'un des meilleurs terroirs à vins blancs de Bourgogne, Montrachet. ","Montrachet",4465,"","Images/romanee-conti_blanc.jpg",""),
+                new Vins(2000,"Rouge","Château de Beaucastel", 11, "Vallée du Rhône - Sud (méridional)", " ", " "," ", 313, "Très bon avec du poisson","",""),
+                new Vins(1999,"Rouge","Domaine Clos de Tart",9,"Vallée du Rhône - Nord (septentrional)", " ", " ", " ", 245, "Avec de la viande","","")
             #endregion
             };
 
             AddCommand = new DelegateCommand(AddAction, CanExecuteAddCo);
             EditCommand = new DelegateCommand(EditAction, CanExecuteEditSupp);
             SuppCommand = new DelegateCommand(SuppAction, CanExecuteEditSupp);
-            ConnectionCommand = new DelegateCommand(ConnectionAction, CanExecuteAddCo);
+            ConnexionCommand = new DelegateCommand(ConnexionAction, CanExecuteAddCo);
             Compte = new Compte();
             TSearchBar = "Rechercher...";
-            ConnectionEtat = "Connexion";
+            ConnexionEtat = "Connexion";
         }
          
         private void AddAction(object o)
@@ -139,8 +140,13 @@ namespace TP1
                 ListeVins.Remove(Vins);
         }
 
-        private void ConnectionAction(object o)
+        private void ConnexionAction(object o)
         {
+            if(ConnexionEtat == "Connexion")
+            {
+                WindowConnexion co = new WindowConnexion();
+
+            }
 
         }
 

@@ -10,8 +10,21 @@ namespace TP1.Models
     {
 
         #region Champs
-        private string _nom;
         private string Prenom { get; set; }
+        private string _nom;
+        public string Nom
+        {
+            get
+            {
+                return _nom;
+            }
+
+            set
+            {
+                _nom = value;
+               
+            }
+        }
         private string _identifiant;
         public string Identifiant
         {
@@ -40,19 +53,6 @@ namespace TP1.Models
         }
         public int Age { get; set; }
 
-        public string Nom
-        {
-            get
-            {
-                return _nom;
-            }
-
-            set
-            {
-                _nom = value;
-                
-            }
-        }
 
         #endregion
 
@@ -68,6 +68,14 @@ namespace TP1.Models
         public Compte()
         {
             Nom = "Connectez vous...";
+            Identifiant = "BONSOIR";
+        }
+
+        public override string ToString()
+        {
+            if(Age != 0)
+                return Nom + " " + Prenom + ", " + Age;
+            return Nom;
         }
     }
 }
