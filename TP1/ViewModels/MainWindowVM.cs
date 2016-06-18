@@ -26,7 +26,7 @@ namespace TP1
         private string _tsearchBar;
         private string _connexionetat;
         private Compte _compteUser;
-        
+
 
 
         public string TSearchBar
@@ -42,8 +42,8 @@ namespace TP1
         public Vins Vins
         {
             get { return _vins; }
-            set     
-            { 
+            set
+            {
                 _vins = value;
                 NotifyPropertyChanged("Vins");
                 NotifyPropertyChanged("ListeVins");
@@ -51,7 +51,7 @@ namespace TP1
                 SuppCommand.RaiseCanExecuteChanged();
             }
         }
-        
+
         public ObservableCollection<Vins> ListeVins
         {
             get { return _listeVins; }
@@ -82,20 +82,12 @@ namespace TP1
 
         public MainWindowVM()
         {
-            ListeVins = new ObservableCollection<Vins>
-            {
-            #region Exemples
-                new Vins(1987,"Blanc","Domaine de la Romanée-Conti", 11,"Bourgogne - Côte de nuits", "Chardonnay"," Ce vin blanc est à la croisée de deux excellences, celle d'un domaine et celle d'un terroir. Le premier est la Romanée-Conti, domaine mythique, à la réputation internationale et dont le moindre vin atteint des sommets de prix et affole les collectionneurs. Le second est l'un des meilleurs terroirs à vins blancs de Bourgogne, Montrachet. ","Montrachet",4465,"","Images/romanee-conti_blanc.jpg",""),
-                new Vins(2000,"Rouge","Château de Beaucastel", 11, "Vallée du Rhône - Sud (méridional)", " ", " "," ", 313, "Très bon avec du poisson","",""),
-                new Vins(1999,"Rouge","Domaine Clos de Tart",9,"Vallée du Rhône - Nord (septentrional)", " ", " ", " ", 245, "Avec de la viande","","")
-            
-            };
 
-            ListeComptes = new ObservableCollection<Compte>
-            {
-                new Compte(18,"Petitcolin","Tom","petitcol","yoyoyo")
-            };
-            #endregion
+
+            LireFichierChargement();
+
+            LireFichierComptes();
+
             AddCommand = new DelegateCommand(AddAction, CanExecuteAddCo);
             EditCommand = new DelegateCommand(EditAction, CanExecuteEditSupp);
             SuppCommand = new DelegateCommand(SuppAction, CanExecuteEditSupp);
@@ -112,12 +104,12 @@ namespace TP1
             WindowAddVins add = new WindowAddVins();
             add.Name = "Ajout";
             add.ShowDialog();
-            if(!add._viewModell.IsCanceled)
+            if (!add._viewModell.IsCanceled)
                 ListeVins.Add(add._viewModell.Vins);
-            EcrireFichier();
+            EcrireFichierChargement();
         }
-        
-        
+
+
 
         private void EditAction(object o)
         {
@@ -129,22 +121,22 @@ namespace TP1
                 ListeVins.Remove(Vins);
                 ListeVins.Add(add._viewModell.Vins);
             }
-            EcrireFichier();
+            EcrireFichierChargement();
         }
-        
+
         private void SuppAction(object o)
         {
             MessageBoxResult Rep = MessageBox.Show("Etes-vous sûr de vouloir supprimer cette bouteille ?", "Supprimer", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if(Rep == MessageBoxResult.Yes)
+            if (Rep == MessageBoxResult.Yes)
                 ListeVins.Remove(Vins);
-            EcrireFichier();
+            EcrireFichierChargement();
         }
 
         private void ConnexionAction(object o)
         {
-            if(ConnexionEtat == "Connexion")
+            if (ConnexionEtat == "Connexion")
             {
-                WindowConnexion co = new WindowConnexion(CompteUser,ListeComptes,this);
+                WindowConnexion co = new WindowConnexion(CompteUser, ListeComptes, this);
                 co.Name = "Connexion";
                 co.ShowDialog();
 
@@ -157,11 +149,11 @@ namespace TP1
                 NotifyPropertyChanged("Compte.Nom");
             }
 
-            else if(ConnexionEtat == "Deconnexion")
+            else if (ConnexionEtat == "Deconnexion")
             {
                 MessageBoxResult Rep = MessageBox.Show("Etes-vous sûr de vouloir vous déconnecter ?", "Deconnexion", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (Rep == MessageBoxResult.Yes)
-                { 
+                {
                     CompteUser = new Compte();
                     ConnexionEtat = "Connexion";
                 }
@@ -180,7 +172,7 @@ namespace TP1
 
         #endregion
 
-        private void LireFichier()
+        private void LireFichierChargement()
         {
             ListeVins = new ObservableCollection<Vins>()
             { };
@@ -231,7 +223,7 @@ namespace TP1
 
         }
 
-        private void EcrireFichier()
+        private void EcrireFichierChargement()
         {
             System.IO.StreamWriter file = new System.IO.StreamWriter("fichier.txt");
             foreach (Vins Vins in ListeVins)
@@ -243,7 +235,44 @@ namespace TP1
 
                 file.WriteLine(Ligne);
             }
-            file.Close();            
+            file.Close();
         }
+
+
+        private void LireFichierComptes()
+        {
+            ListeComptes = new ObservableCollection<Compte> { };
+
+            String ligne;
+            System.IO.StreamReader file = new System.IO.StreamReader("Comptes.txt");
+
+            while ((ligne = file.ReadLine()) != null)
+            {
+                String[] TElements;
+
+                TElements = ligne.Split(new[] { '|' });
+
+                String Identifiant = TElements[0];
+                String MotDePasse = TElements[1];
+                String Nom = TElements[2];
+                String Prenom = TElements[3];
+                String Age = TElements[4];
+
+                int fAge = 0;
+                try
+                {
+                    fAge = int.Parse(Age);
+                }
+                catch (Exception) { }
+
+                ListeComptes.Add(new Compte(fAge, Nom, Prenom, Identifiant, MotDePasse));
+
+            }
+
+            file.Close();
+        }
+
+
+
     }
 }

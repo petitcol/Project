@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TP1.Models;
 using TP1.View;
+using TP1.ViewModels;
 
 namespace TP1.ViewModels
 {
@@ -20,6 +21,7 @@ namespace TP1.ViewModels
         public DelegateCommand EnrCommand { get; set; }
         public DelegateCommand AnnulCommand { get; set; }
         public WindowEnrCompte Window { get; set; }
+        public bool isConnected { get; set; } = false;
 
 
         #endregion
@@ -36,6 +38,9 @@ namespace TP1.ViewModels
         public void EnrAction(object o)
         {
             lComptes.Add(CompteUser);
+            EcrireFichierCompte();
+            isConnected = true;
+
             Window.Close();
         }
 
@@ -48,6 +53,23 @@ namespace TP1.ViewModels
         {
             return true;
         }
+
+        public void EcrireFichierCompte()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter("Comptes.txt");
+            foreach (Compte Compte in lComptes)
+            {
+                int Age = Compte.Age;
+
+
+                String Ligne = Compte.Identifiant + "|" + Compte.Pwd + "|" + Compte.Nom + "|" + Compte.Prenom + "|" + Age + "|";
+                file.WriteLine(Ligne);
+            }
+            file.Close();
+
+        }
+
+
 
     }
 }

@@ -24,7 +24,7 @@ namespace TP1.View
     public partial class WindowEnrCompte : Window
     {
 
-        WindowEnrCompteVM ViewModel { get; set; }  
+        public WindowEnrCompteVM ViewModel { get; set; }  
 
         public WindowEnrCompte(Compte c, ObservableCollection<Compte> l)
         {

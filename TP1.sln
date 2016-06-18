@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivreVins", "TP1\LivreVins.csproj", "{4F05A710-5D6F-4616-B4CA-684F8D9BC715}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "ClassLibrary1\Library.csproj", "{3346E0EE-8903-4E9B-9A18-195D317B0271}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{DE9F506D-0BA8-474E-8F8F-C459D5AEDE53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{46F509E5-CFA8-4F40-BC92-446E833E2682}"
+	ProjectSection(SolutionItems) = preProject
+		D:\Téléchargements\Project-master\TP1\bin\Debug\Comptes.txt = D:\Téléchargements\Project-master\TP1\bin\Debug\Comptes.txt
+		D:\Téléchargements\Project-master\TP1\bin\Debug\fichier.txt = D:\Téléchargements\Project-master\TP1\bin\Debug\fichier.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46F509E5-CFA8-4F40-BC92-446E833E2682} = {DE9F506D-0BA8-474E-8F8F-C459D5AEDE53}
 	EndGlobalSection
 EndGlobal

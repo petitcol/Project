@@ -26,7 +26,7 @@ namespace TP1.ViewModels
 
         #endregion
 
-        public WindowConnexionVM(Compte c, ObservableCollection<Compte> l, MainWindowVM mw,WindowConnexion w)
+        public WindowConnexionVM(Compte c, ObservableCollection<Compte> l, MainWindowVM mw, WindowConnexion w)
         {
             CompteUser = c;
             lComptes = l;
@@ -43,7 +43,7 @@ namespace TP1.ViewModels
 
         public void ConnexionAction(object o)
         {
-            if(CompteUser.Identifiant == "" || CompteUser.Pwd == " "|| CompteUser.Identifiant == null || CompteUser.Pwd == null)
+            if (CompteUser.Identifiant.Equals("") || CompteUser.Pwd.Equals("") || CompteUser.Identifiant.Equals(null) || CompteUser.Pwd.Equals(null))
             {
                 MessageBox.Show("Connexion impossible : Veuillez remplir les champs", "Connexion", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -57,17 +57,19 @@ namespace TP1.ViewModels
                     MW.CompteUser = c;
                     IsConnected = true;
                     Window.Close();
+                    return;
                 }
-                else
-                    MessageBox.Show("Connexion impossible : Veuillez saisir un identifiant/mot de passe correct", "Connexion", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+            MessageBox.Show("Connexion impossible : Veuillez saisir un identifiant/mot de passe correct", "Connexion", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         public void CreateAccAction(object o)
         {
-            WindowEnrCompte Enr = new WindowEnrCompte(CompteUser,lComptes);
+            WindowEnrCompte Enr = new WindowEnrCompte(CompteUser, lComptes);
             Enr.Name = "Enregistrement";
             Enr.ShowDialog();
+
+            IsConnected = Enr.ViewModel.isConnected;
             Window.Close();
         }
 
