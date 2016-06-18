@@ -8,6 +8,7 @@ using Library;
 using System.Windows;
 using TP1.Models;
 using TP1.View;
+using System.Windows.Input;
 
 namespace TP1
 {
@@ -24,7 +25,7 @@ namespace TP1
         private Vins _vins;
         private string _tsearchBar;
         private string _connexionetat;
-        private Compte _compte;
+        private Compte _compteUser;
         
 
 
@@ -69,11 +70,11 @@ namespace TP1
 
         public Compte CompteUser
         {
-            get { return _compte; }
+            get { return _compteUser; }
             set
             {
-                _compte = value;
-                NotifyPropertyChanged("Compte");
+                _compteUser = value;
+                NotifyPropertyChanged("CompteUser");
             }
         }
 
@@ -83,13 +84,18 @@ namespace TP1
         {
             ListeVins = new ObservableCollection<Vins>
             {
-            #region ExVins
+            #region Exemples
                 new Vins(1987,"Blanc","Domaine de la Romanée-Conti", 11,"Bourgogne - Côte de nuits", "Chardonnay"," Ce vin blanc est à la croisée de deux excellences, celle d'un domaine et celle d'un terroir. Le premier est la Romanée-Conti, domaine mythique, à la réputation internationale et dont le moindre vin atteint des sommets de prix et affole les collectionneurs. Le second est l'un des meilleurs terroirs à vins blancs de Bourgogne, Montrachet. ","Montrachet",4465,"","Images/romanee-conti_blanc.jpg",""),
                 new Vins(2000,"Rouge","Château de Beaucastel", 11, "Vallée du Rhône - Sud (méridional)", " ", " "," ", 313, "Très bon avec du poisson","",""),
                 new Vins(1999,"Rouge","Domaine Clos de Tart",9,"Vallée du Rhône - Nord (septentrional)", " ", " ", " ", 245, "Avec de la viande","","")
-            #endregion
+            
             };
 
+            ListeComptes = new ObservableCollection<Compte>
+            {
+                new Compte(18,"Petitcolin","Tom","petitcol","yoyoyo")
+            };
+            #endregion
             AddCommand = new DelegateCommand(AddAction, CanExecuteAddCo);
             EditCommand = new DelegateCommand(EditAction, CanExecuteEditSupp);
             SuppCommand = new DelegateCommand(SuppAction, CanExecuteEditSupp);
@@ -108,7 +114,10 @@ namespace TP1
             add.ShowDialog();
             if(!add._viewModell.IsCanceled)
                 ListeVins.Add(add._viewModell.Vins);
+            EcrireFichier();
         }
+        
+        
 
         private void EditAction(object o)
         {
@@ -120,6 +129,7 @@ namespace TP1
                 ListeVins.Remove(Vins);
                 ListeVins.Add(add._viewModell.Vins);
             }
+            EcrireFichier();
         }
         
         private void SuppAction(object o)
@@ -127,25 +137,35 @@ namespace TP1
             MessageBoxResult Rep = MessageBox.Show("Etes-vous sûr de vouloir supprimer cette bouteille ?", "Supprimer", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if(Rep == MessageBoxResult.Yes)
                 ListeVins.Remove(Vins);
+            EcrireFichier();
         }
 
         private void ConnexionAction(object o)
         {
             if(ConnexionEtat == "Connexion")
             {
-                WindowConnexion co = new WindowConnexion(CompteUser,ListeComptes);
+                WindowConnexion co = new WindowConnexion(CompteUser,ListeComptes,this);
                 co.Name = "Connexion";
                 co.ShowDialog();
 
                 if (co.ViewModel.IsConnected)
+                {
                     ConnexionEtat = "Deconnexion";
+                    NotifyPropertyChanged("ConnexionEtat");
+                }
+                NotifyPropertyChanged("CompteUser");
+                NotifyPropertyChanged("Compte.Nom");
             }
 
             else if(ConnexionEtat == "Deconnexion")
             {
-
+                MessageBoxResult Rep = MessageBox.Show("Etes-vous sûr de vouloir vous déconnecter ?", "Deconnexion", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (Rep == MessageBoxResult.Yes)
+                { 
+                    CompteUser = new Compte();
+                    ConnexionEtat = "Connexion";
+                }
             }
-
         }
 
         private bool CanExecuteAddCo(object o)
@@ -160,5 +180,70 @@ namespace TP1
 
         #endregion
 
+        private void LireFichier()
+        {
+            ListeVins = new ObservableCollection<Vins>()
+            { };
+
+            String ligne;
+            System.IO.StreamReader file = new System.IO.StreamReader("fichier.txt");
+
+            while ((ligne = file.ReadLine()) != null)
+            {
+                String[] TElements;
+
+                TElements = ligne.Split(new[] { '|' });
+
+                String Annee = TElements[0];
+                String Type = TElements[1];
+                String Domaine = TElements[2];
+                String Pourcentage = TElements[3];
+                String Region = TElements[4];
+                String Cepage = TElements[5];
+                String Description = TElements[6];
+                String Appelation = TElements[7];
+                String Prix = TElements[8];
+                String EnCuisine = TElements[9];
+                String PathImage = TElements[10];
+                String ImageName = TElements[11];
+
+                int fAnnee = 0;
+                try
+                {
+                    fAnnee = int.Parse(TElements[0]); ;
+                }
+                catch (Exception) { }
+
+                float fPourcentage = 0;
+
+                try
+                {
+                    fPourcentage = Single.Parse(Pourcentage);
+                }
+                catch (Exception) { }
+
+                int fPrix = int.Parse(Prix);
+
+                ListeVins.Add(new Vins(fAnnee, Type, Domaine, fPourcentage, Region, Cepage, Description, Appelation, fPrix, EnCuisine, PathImage, ImageName));
+            }
+
+            file.Close();
+
+        }
+
+        private void EcrireFichier()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter("fichier.txt");
+            foreach (Vins Vins in ListeVins)
+            {
+                int? Annee = Vins.Annee;
+                float? Pourcentage = Vins.Pourcentage;
+                int Prix = Vins.Prix;
+                String Ligne = Annee + "|" + Vins.Type + "|" + Vins.Domaine + "|" + Pourcentage + "|" + Vins.Region + "|" + Vins.Cepage + "|" + Vins.Description + "|" + Vins.Appellation + "|" + Prix + "|" + Vins.EnCuisine + "|" + Vins.PathImage + "|" + Vins.ImageName + "|";
+
+                file.WriteLine(Ligne);
+            }
+            file.Close();            
+        }
     }
 }

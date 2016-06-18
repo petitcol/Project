@@ -8,6 +8,7 @@ using Library;
 using System.Windows;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows.Input;
 
 namespace TP1.ViewModels
 {

@@ -25,10 +25,10 @@ namespace TP1.View
     {
         public WindowConnexionVM ViewModel { get; set; }
 
-        public WindowConnexion(Compte c, ObservableCollection<Compte> l)
+        public WindowConnexion(Compte c, ObservableCollection<Compte> l, MainWindowVM mw)
         {
             InitializeComponent();
-            ViewModel = new WindowConnexionVM(c,l);
+            ViewModel = new WindowConnexionVM(c,l,mw,this);
             DataContext = ViewModel;
         }
     }

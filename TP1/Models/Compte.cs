@@ -65,16 +65,13 @@ namespace TP1.Models
             Pwd = pwd;
         }
 
-        public Compte()
-        {
-            Nom = "SVP connectez vous...";
-        }
+        public Compte() { }
 
         public override string ToString()
         {
             if(Age != 0)
                 return Nom + " " + Prenom + ", " + Age;
-            return Nom;
+            return "Non connecté";
         }
     }
 }
