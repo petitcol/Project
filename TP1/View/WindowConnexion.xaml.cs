@@ -28,7 +28,7 @@ namespace TP1.View
         public WindowConnexion(Compte c, ObservableCollection<Compte> l, MainWindowVM mw)
         {
             InitializeComponent();
-            ViewModel = new WindowConnexionVM(c,l,mw,this);
+            ViewModel = new WindowConnexionVM(c, l, mw, this);
             DataContext = ViewModel;
         }
     }
